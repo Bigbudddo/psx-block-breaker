@@ -1,0 +1,6 @@
+*.bat
+*.exe
+cdrom\*
+main\.cpe
+main\.sym
+mem\.map
