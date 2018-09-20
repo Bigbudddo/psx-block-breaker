@@ -24,6 +24,22 @@ typedef struct {
 	int score_left;
 } Scoreboard;
 
+/* Block Functions */
+Block createBlock(Color color, int x, int y, int width, int height) {
+	Block block;
+	
+	block.size = 10;
+	block.x = x;
+	block.y = y;
+	block.box = createBox(color, x, y, x + width, y + height);
+	
+	return block;
+}
+
+void drawBlock(Block block) {
+	drawBox(block.box)
+}
+
 /* Paddle Functions */
 Paddle createPaddle(int length) {
 	Paddle paddle;
