@@ -6,11 +6,13 @@
 #pragma once
 
 typedef struct {
-	int size, x, y, is_moving, speed_x, speed_y;
+	bool is_moving;
+	int size, x, y, speed_x, speed_y;
 	Box box;
 } Ball;
 
 typedef struct {
+	bool active;
 	int size, x, y;
 	Box box;
 } Block;
@@ -24,10 +26,24 @@ typedef struct {
 	int score_left;
 } Scoreboard;
 
+/* Ball Functions */
+Ball createBall(Color Color, int x, int y, int size) {
+	Ball ball;
+	ball.size = size;
+	ball.x = x;
+	ball.y = y;
+	ball.speed_x = 0;
+	ball.speed_y = 0;
+	ball.is_moving = false;
+
+	return ball;
+}
+
 /* Block Functions */
 Block createBlock(Color color, int x, int y, int width, int height) {
 	Block block;
 	
+	block.active = true;
 	block.size = 10;
 	block.x = x;
 	block.y = y;
@@ -37,7 +53,9 @@ Block createBlock(Color color, int x, int y, int width, int height) {
 }
 
 void drawBlock(Block block) {
-	drawBox(block.box)
+	if (block.active == true) {
+		drawBox(block.box);
+	}
 }
 
 /* Paddle Functions */

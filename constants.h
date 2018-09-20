@@ -27,6 +27,11 @@
 
 #define DEBUG 1
 
+#define true 1
+#define false 0
+
+typedef int bool;
+
 typedef struct {
 	int r;
 	int g;

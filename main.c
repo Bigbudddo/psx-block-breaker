@@ -7,8 +7,10 @@
 #include "constants.h"
 #include "breaker.h"
 
+int x, y;
 Paddle player;
 Block blocks[5][6];
+Color colours[5];
 
 int main() {
 	initialize();
@@ -31,6 +33,13 @@ void initialize() {
 	// define the background colour
 	setBackgroundColor(createColor(50, 50, 50));
 
+	// setup block colours
+	colours[0] = createColor(51, 153, 255);
+	colours[1] = createColor(255, 51, 255);
+	colours[2] = createColor(255, 0, 127);
+	colours[3] = createColor(128, 255, 0);
+	colours[4] = createColor(255, 51, 51);
+
 	// define the player object
 	player = createPaddle(60);
 }
@@ -52,12 +61,11 @@ void update() {
 	padUpdate();
 	
 	if (padCheck(Pad1Start)) {
-		int x, y;
-		Color color = createColor(125, 125, 125);
 		
+		// create the blocks
 		for (y = 0; y < 5; y++) {
 			for (x = 0; x < 6; x++) {
-				blocks[y][x] = createBlock(color, x * 50, y * 15, 50);
+				blocks[y][x] = createBlock(colours[y], (x * 50) + 10, (y * 15) + 10, 50, 10);
 			}
 		}
 	}
@@ -73,5 +81,13 @@ void update() {
 
 void draw() {
 	drawPaddle(player);
-	FntPrint("Block Breaker!");
+
+	// draw the blocks
+	for (y = 0; y < 5; y++) {
+		for (x = 0; x < 6; x++) {
+			drawBlock(blocks[y][x]);
+		}
+	}
+
+	//FntPrint("Block Breaker!");
 }
