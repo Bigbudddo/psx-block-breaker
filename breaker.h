@@ -4,6 +4,7 @@
  */
 
 #pragma once
+#include "constants.h"
 
 typedef struct {
 	bool is_moving;
@@ -27,6 +28,24 @@ typedef struct {
 } Scoreboard;
 
 /* Ball Functions */
+Ball accelerateBall(Ball ball) {
+	if (ball.speed_x < 0) {
+		ball.speed_x -= rand() % 2;
+	}
+	else {
+		ball.speed_x += rand() % 2;
+	}
+
+	if (ball.speed_y < 0) {
+		ball.speed_y -= rand() % 2;
+	}
+	else {
+		ball.speed_y += rand() % 2;
+	}
+
+	return ball;
+}
+
 Ball createBall(Color Color, int x, int y, int size) {
 	Ball ball;
 	ball.size = size;
@@ -37,6 +56,36 @@ Ball createBall(Color Color, int x, int y, int size) {
 	ball.is_moving = false;
 
 	return ball;
+}
+
+Ball kickBall(Ball ball) {
+	if (ball.is_moving == true) {
+		return ball;
+	}
+	else {
+		ball.speed_x = 1 + rand() % 2 - rand() % 4;
+		ball.speed_y = 1 + rand() % 2 - rand() % 2;
+		ball.is_moving = true;
+		return ball;
+	}
+}
+
+Ball moveBall(Ball ball, Paddle paddle) {
+	if (ball.is_moving == false) {
+		return ball;
+	}
+
+	ball.x += ball.speed_x;
+	ball.y += ball.speed_y;
+	ball.box = moveBox(ball.box, ball.x, ball.y);
+
+	// TODO: write collision and checks?
+
+	return ball;
+}
+
+void drawBall(Ball ball) {
+	drawBox(ball.box);
 }
 
 /* Block Functions */

@@ -8,6 +8,7 @@
 #include "breaker.h"
 
 int x, y;
+Ball ball;
 Paddle player;
 Block blocks[5][6];
 Color colours[5];
@@ -42,20 +43,8 @@ void initialize() {
 
 	// define the player object
 	player = createPaddle(60);
+	ball = createBall(createColor(255, 255, 255), (SCREEN_WIDTH / 2) - 2, (SCREEN_HEIGHT / 2) - 2, 2);
 }
-
-/*
-Block * createBlockRow(Color color, int rowY) {
-	int c;
-	int width = (SCREEN_WIDTH - 20) / 6;
-	static Block r[6];
-	
-	for (c = 0; c < 6; c = c + 1) {
-		r[c] = createBlock(color, c * width, y, width);
-	}
-	
-	return r;
-}*/
 
 void update() {
 	padUpdate();
@@ -68,26 +57,35 @@ void update() {
 				blocks[y][x] = createBlock(colours[y], (x * 50) + 10, (y * 15) + 10, 50, 10);
 			}
 		}
+
+		// do we generate the ball object?
 	}
 	
+	// move the paddle/player to the left
 	if (padCheck(Pad1Left)) {
 		player = movePaddle(player, -2);
 	}
 	
+	// move the paddle/player to the right
 	if (padCheck(Pad1Right)) {
 		player = movePaddle(player, 2);
 	}
+
+	// update/move the ball object
+	ball = moveBall(ball, player);
 }
 
 void draw() {
-	drawPaddle(player);
-
 	// draw the blocks
 	for (y = 0; y < 5; y++) {
 		for (x = 0; x < 6; x++) {
 			drawBlock(blocks[y][x]);
 		}
 	}
+
+	// draw the player & ball on the screen
+	drawPaddle(player);
+	drawBall(ball);
 
 	//FntPrint("Block Breaker!");
 }
